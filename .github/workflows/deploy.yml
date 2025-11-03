@@ -1,0 +1,27 @@
+name: Deploy to Deta Space
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Deta Space CLI
+        run: |
+          wget https://github.com/deta/space-cli/releases/latest/download/space-linux-amd64
+          sudo mv space-linux-amd64 /usr/local/bin/space
+          sudo chmod +x /usr/local/bin/space
+
+      - name: Login to Deta Space
+        env:
+          SPACE_ACCESS_TOKEN: ${{ secrets.SPACE_ACCESS_TOKEN }}
+        run: |
+          echo "$SPACE_ACCESS_TOKEN" | space login --token
+
+      - name: Deploy app
+        run: space push
