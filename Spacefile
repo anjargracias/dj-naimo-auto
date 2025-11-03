@@ -1,0 +1,4 @@
+name: dj-naimo-auto
+description: Auto NCS watcher to trigger Colab rendering
+type: web
+main: main.py
